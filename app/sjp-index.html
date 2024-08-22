@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href='assets/css/fullcalendar.css' rel='stylesheet' />
+    <link href='assets/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href='assets/css/style.css' rel='stylesheet' />
+    <!-- <script src='assets/js/jquery-1.10.2.js' type="text/javascript"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='assets/js/jquery-ui.custom.min.js' type="text/javascript"></script>
+    <script src='assets/js/fullcalendar.js' type="text/javascript"></script>
+    <!-- <script src='assets/js/ZSDK.js' type="text/javascript"></script>
+    <script src='assets/js/ZohoCrmHelper.js' type="text/javascript"></script> -->
+    <!-- <script src="https://live.zwidgets.com/js-sdk/beta1.0.4/ZohoEmbededAppSDK.min.js"></script> -->
+    <script src=" https://live.zwidgets.com/js-sdk/1.0.6/ZohoEmbededAppSDK.min.js"></script>
+    <script src="assets/js/sjp-main.js"></script>
+    <script src="assets/js/sjp-common.js"></script>
+    <script src="assets/js/sjp.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href='assets/css/jquery.datetimepicker.css' rel='stylesheet' media='all' />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+</head>
+
+<body>
+    <style type="text/css">
+        .btn,
+        .btn-success.disabled,
+        .btn-success:disabled {
+            background: #000080;
+            color: #fff;
+            border: none;
+        }
+        
+        .btn:hover,
+        .btn:active,
+        .btn-success:active {
+            background: #000080;
+            color: #fff;
+            border: none;
+        }
+        
+        .fc-button-month {
+            color: #fff;
+        }
+        
+        .fc-state-default {
+            border-color: #000080;
+            color: #000080;
+        }
+        
+        .fc-button-month.fc-state-default {
+            background-color: #000080;
+            background-image: none;
+            outline: 0;
+            color: #FFFFFF;
+        }
+        
+        .fc-state-down,
+        .fc-state-active {
+            background-color: none;
+        }
+    </style>
+    <div class="container">
+        <!-- Calendar page -->
+        <div id='wrap'>
+            <!-- <fieldset>
+                <p> <span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);"><b></b></span>&nbsp;&nbsp;
+                    <span style="background-color:gray;color:#fff;border-radius: 5px 7px;">&nbsp;Draft&nbsp;</span> &nbsp;&nbsp;
+                    <span style="background-color:orange;color:#fff;border-radius: 5px 7px;">&nbsp;Sent&nbsp;</span> &nbsp;&nbsp;
+                    <span style="background-color:green;color:#fff;border-radius: 5px 7px;">&nbsp;Approved&nbsp;</span> &nbsp;&nbsp;
+                    <span style="background-color:red;color:#fff;border-radius: 5px 7px;">&nbsp;Rejected&nbsp;</span> &nbsp;&nbsp;
+                    <span style="background-color:#A45EA1;color:#fff;border-radius: 5px 7px;">&nbsp;Modified&nbsp;</span> &nbsp;&nbsp;
+                    <span style="background-color:#2E9AFE;color:#fff;border-radius: 5px 7px;">&nbsp;Deviated&nbsp;</span> &nbsp;&nbsp;
+                </p>
+               </fieldset> -->
+            <button id="send-approval" type="button" class="btn btn-success"></button>
+            <select id="users-list" class="form-control float-right" style="width:20%;margin-bottom: 10px;">
+			</select>
+            <div class="col-3" id="approve" style="display: none;">
+                <button type="button" class="btn btn-success approve_status" onclick="status_change('Approved')" data-val="Approved">Approve</button>
+                <button type="button" class="btn btn-danger approve_status" onclick="status_change('Rejected')" data-val="Rejected">Reject</button>
+            </div>
+            <div style='clear:both'></div>
+            <div id='calendar'></div>
+            <div style='clear:both'></div>
+        </div>
+        <div id="formScreen">
+            <div class="container">
+                <div id="header">
+                    <div class="row">
+                        <h2 id="change_head">Success Journey Plan</h2>
+                    </div>
+                </div>
+                <div id="content">
+                    <div class="row">
+                        <div class="col-md-12 form-wrapper">
+                            <form>
+                                <input type="hidden" id="count_enents" value="0">
+                                <input type="hidden" id="edit" value="0">
+                                <input type="hidden" id="tp_status" value="Approved">
+                                <input type="hidden" id="accessToken" value="">
+                                <input type="hidden" id="userEmailId" value="">
+                                <input type="hidden" id="userSelectedYear" value="">
+                                <input type="hidden" class="form-control" id="userHqId" value="" disabled="disabled">
+                                <input type="hidden" id="userId" value="" disabled="disabled">
+                                <input type="hidden" id="userRole" value="">
+                                <input type="hidden" id="areas" value="">
+                                <input type="hidden" id="staffHqId" value="">
+                                <input type="hidden" id="selectedEventId" value="">
+                                <input type="hidden" id="checkAreaChange" value="">
+
+                                <div class="form-group row">
+                                    <label for="inputPassword3" class="col-sm-5 col-form-label">Name</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="userName" placeholder="" value="" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword3" class="col-sm-5 col-form-label">HQ</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="userHq" value="" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-5 col-form-label">Role</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control selectRole" name="role" disabled="disabled">
+											<option>Role</option>
+											<option value="FLSE">FLSE</option>
+        		                            <option value="RSM">RSM</option>
+        		                            <option value="PS">PS</option>
+        		                            <option value="ZSM">ZSM</option>
+        		                            <option value="NSM">NSM</option>
+		                          </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword3" class="col-sm-5 col-form-label">Date</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control date-field" id="datetimepicker" placeholder="YYYY-MM-DD">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-5 col-form-label">Activity Type</label>
+                                    <div class="col-sm-5">
+                                        <!--  <input type="email" class="form-control" id="inputEmail3" placeholder="Email"> -->
+                                        <select class="form-control" id="selectActivity" name="activity_type" required>
+		                                <option value="Select Activity">Select Activity</option>
+		                                <option value="Field Work" selected onclick="openDiv()">Field Work</option>
+		                                <option value="Meeting" onclick="openDiv()">Meeting</option>
+		                                <option value="Training" onclick="openDiv()">Training</option>    
+		                                <option value="Transit" onclick="openDiv()">Transit</option>    
+		                                <option value="Holiday" onclick="openDiv()">Holiday</option>    
+		                                <option value="Marketing Activity" onclick="openDiv()">Marketing Activity</option>    
+		                                <option value="Office" onclick="openDiv()">Office</option>
+		                                <option value="Leave" onclick="openDiv()">Leave</option>    
+		                            </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row marketingTypeContainer">
+                                    <label class="col-sm-5 col-form-label">Marketing Type</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control" name="field-work-type" id="marketingType">
+	                              	<option selected="selected" disabled="disabled">Select Marketing Type</option>
+	                                <option value="Road Show">Road Show</option>
+	                                <option value="CME">CME</option>
+	                                <option value="EXPO">EXPO</option>
+	                              </select>
+                                    </div>
+                                </div>
+                                <div class="field-work">
+                                    <div class="fieldWorkType">
+                                        <div class="form-group row">
+                                            <label class="col-sm-5 col-form-label">Field Work Type</label>
+                                            <div class="col-sm-5">
+                                                <select class="form-control" id="selectFieldWorkType" name="field-work-type">
+		                              	<option selected="selected" disabled="disabled">Select Field Work Type</option>
+		                                <option value="With Staff">With Staff</option>
+		                                <option value="Independent">Independent</option>
+		                                <option value="Distributor Visit">Distributor Visit</option>
+		                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row staffName">
+                                            <label class="col-sm-5 col-form-label">Staff Name</label>
+                                            <div class="col-sm-5">
+                                                <select class="form-control staff-name" name="staff-name" id="staff-name">
+		                              	<option selected="selected" disabled="disabled">Select Staff</option>
+		                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row staffArea">
+                                            <label class="col-sm-5 col-form-label">Area</label>
+                                            <div class="col-sm-5">
+                                                <select multiple class="form-control selectpicker" name="staff-area" id="staffAreaSelect">
+		                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row FlspHq">
+                                            <label class="col-sm-5 col-form-label">FLSP HQ</label>
+                                            <div class="col-sm-5">
+                                                <input type="text" class="form-control flspHq" name="flsp-hq" value="" disabled="disabled" id="fisp-hq">
+                                                <input type="hidden" class="flspHqId" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row field-work-day" hidden>
+                                        <label for="inputEmail3" class="col-sm-5 col-form-label">Day</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-control selectDay" name="day">
+		                              <option disabled="disabled" selected="selected" value="Select Day">Select Day</option>
+		                              <option id="day1">1</option>
+		                              <option id="day2">2</option>
+		                              <option id="day3">3</option>
+		                              <option id="day4">4</option>
+		                              <option id="day5">5</option>
+		                              <option id="day6">6</option>
+		                              <option id="day7">7</option>
+		                              <option id="day8">8</option>
+		                              <option id="day9">9</option>
+		                              <option id="day10">10</option>
+		                              <option id="day11">11</option>
+		                              <option id="day12">12</option>
+		                              <option id="day13">13</option>
+		                              <option id="day14">14</option>
+		                              <option id="day15">15</option>
+		                              <option id="day16">16</option>
+		                              <option id="day17">17</option>
+		                              <option id="day18">18</option>
+		                              <option id="day19">19</option>
+		                              <option id="day20">20</option>
+		                              <option id="day21">21</option>
+		                              <option id="day22">22</option>
+		                              <option id="day23">23</option>
+		                              <option id="day24">24</option>
+		                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row field-work-area FlspAndIndependent">
+                                        <label class="col-sm-5 col-form-label">Area</label>
+                                        <div class="col-sm-5">
+                                            <select multiple class="form-control selectpicker" id="Area_Selector" name="field-work-type" required>
+		                              <option>Select Area</option>
+		                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row field-work-area-type">
+                                        <label class="col-sm-5 col-form-label">Area Type</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-control selectAreaType" name="field-work-type" id="area_type" disabled="disabled">
+                                                <option>Select Area Type</option>
+                                                <option value="OS">OS</option>
+                                                <option value="EX-HQ">EX-HQ</option>
+                                                <option value="HQ">HQ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row field-work-customers selectedcustomers">
+                                        <label class="col-sm-5 col-form-label">Customers</label>
+                                        <div class="col-sm-5">
+                                            <select multiple class="form-control customerSelector selectpicker" name="field-work-cust" id="customer_Selector" required>
+                                            <option>Select Customers</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="meeting">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label">Meeting Type</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-control" name="meeting-type" id="meetingType" required>
+                                              <option value="" selected="selected" disabled="disabled">Select Meeting Type</option>
+                                              <option value="Weekly">Weekly</option>
+                                              <option value="Monthly">Monthly</option>
+                                              <option value="Quarterly">Quarterly</option>
+                                              <option value="Half">Half-Yearly</option>
+                                              <option value="Yearly">Yearly</option>
+                                              <option value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="remarks">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label">Remarks</label>
+                                        <div class="col-sm-5">
+                                            <textarea name="remarks" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="office">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label">Office Type</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-control" name="office-type" id="office-type" required>
+		                              <option selected="selected" disabled="disabled">Select Office Type</option>
+		                              <option>Branch Office</option>
+		                              <option>Corporate Office</option>
+		                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="customers" style="display: none;">
+                                    <table id="myTable" class=" table order-list">
+                                        <thead>
+                                            <tr>
+                                                <td class="col-sm-5 col-form-label">Customer</td>
+                                                <td class="col-sm-5 col-form-label">Area</td>
+                                                <td class="col-sm-5 col-form-label">Product Classification</td>
+                                                <td class="col-sm-5 col-form-label">Products</td>
+                                                <td class="col-sm-5 col-form-label">Purpose</td>
+                                                <td class="col-sm-5 col-form-label">Related ID</td>
+                                                <td class="col-sm-5 col-form-label">Details</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DynamicBody">
+
+                                        <!-- </tbody>
+                                        <tbody id="DynamicBody2"> -->
+
+                                        </tbody>
+                                        <tfoot hidden>
+                                            <tr>
+                                                <td colspan="5" style="text-align: left;">
+                                                    <input type="button" class="btn btn-lg btn-block " id="addCustomer" value="Add Customer" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="form-group submit-wrapper row">
+                                    <div class="col-sm-5">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary submit">Submit</button>
+                                        <button class="btn btn-default reset" id="reset">Reset</button>
+                                        <button class="btn btn-default cancel" id="cancel">Cancel</button>
+                                        <!-- <button class="btn btn-default delete" id="delete" disabled="disabled">Delete</button> -->
+                                    </div>
+                                </div>
+                                <div>
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

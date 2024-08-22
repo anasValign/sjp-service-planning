@@ -1,0 +1,78 @@
+/***********css**************/
+@media screen and (max-width: 767px) {
+	div#content .form-wrapper form .form-group label , div#content .form-wrapper form .form-group label +div{flex: 0 0 100%;}
+}
+
+#content .form-wrapper{max-width: 500px;margin:auto;}
+.form-wrapper .submit-wrapper .submit{background: #000080;border: 0;margin-right: 1em;}
+.form-wrapper .submit-wrapper .reset{border:0;}
+#header h2{width:100%;max-width: 500px;margin: 1em auto;text-align: center;border-bottom: 1px solid #ccc;padding-bottom:0.2em;}
+#content .form-wrapper form .form-group label , #content .form-wrapper form .form-group label +div{flex: 0 0 50%;max-width: 100%;}
+.form-wrapper .submit-wrapper{text-align: right;border-top: 1px solid #ccc;padding-top: 1.3em; margin-bottom: 170px;}
+div#wrap{width: 100%;}
+#wrap #calendar{width: 100%;}
+.selectpicker .dropdown-toggle { max-width: 220px!important; }
+:not(.input-group)>.bootstrap-select.form-control:not([class*=col-]) { max-width: 220px!important; }
+
+ body {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
+      background-color: #DDDDDD;
+      }
+
+    #wrap {
+      width: 1100px;
+      margin: 0 auto;
+      }
+
+    #external-events {
+      float: left;
+      width: 150px;
+      padding: 0 10px;
+      text-align: left;
+      }
+
+    #external-events h4 {
+      font-size: 16px;
+      margin-top: 0;
+      padding-top: 1em;
+      }
+
+    .external-event { /* try to mimick the look of a real event */
+      margin: 10px 0;
+      padding: 2px 4px;
+      background: #3366CC;
+      color: #fff;
+      font-size: .85em;
+      cursor: pointer;
+      }
+
+    #external-events p {
+      margin: 1.5em 0;
+      font-size: 11px;
+      color: #666;
+      }
+
+    #external-events p input {
+      margin: 0;
+      vertical-align: middle;
+      }
+
+    #calendar {
+  /*    float: right; */
+          margin: 0 auto;
+      width: 900px;
+      background-color: #FFFFFF;
+        border-radius: 6px;
+          box-shadow: 0 1px 2px #C3C3C3;
+      }
+#formScreen{
+  width:100%;
+  display: none;}
+#send-approval,#users-list{float: right;display: inline;margin: 10px;}
+#approve{margin: 10px;display: none;}
+#sjp-dropdown{display: none;margin: 10px;}
+#users-list{display: none;}
+

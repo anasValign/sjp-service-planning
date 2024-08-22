@@ -1,0 +1,12 @@
+var nameOfCust = val.Customer_Name.name;
+            console.log(val.Customer_Name.name);
+            var nameOfCustArea = val.Area;
+            console.log(val.Area);
+            var custProductClassfication = val.Product_Classification1.name;
+            console.log(val.Product_Classification1.name);
+            var custProductName = val.Product_Name.name;
+            console.log(val.Product_Name.name);
+            var custPurpose = val.Purpose;
+            console.log(val.Purpose);
+            var custRelatedID = val.Related_Id;
+            console.log(val.Related_Id);
